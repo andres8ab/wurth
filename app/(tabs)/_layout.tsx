@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import { Tabs, Redirect } from "expo-router";
 import { icons } from "../../constants";
 
@@ -55,6 +55,7 @@ const TabsLayout = () => {
             borderTopWidth: 1,
             borderTopColor: "#232533",
             height: 84,
+            display: Platform.OS === "web" ? "none" : "flex",
           },
         }}
       >

@@ -2,10 +2,12 @@ import {
   View,
   Text,
   FlatList,
+  Platform,
   TouchableOpacity,
   ImageBackground,
+  ViewToken,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import * as Animatable from "react-native-animatable";
 
 const zoomIn: any = {
@@ -49,23 +51,40 @@ const TrendingItem = ({ activeItem, item }: any) => {
 const Trending = ({ posts = [] }: any) => {
   const [activeItem, setActiveItem] = useState(posts[1] || null);
 
-  const viewableItemsChanged = ({ viewableItems }: any) => {
-    if (viewableItems.length > 0) {
-      setActiveItem(viewableItems[0].key);
+  const viewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
+      if (viewableItems.length > 0) {
+        setActiveItem(viewableItems[0].key);
+      }
     }
-  };
-  return posts.length > 0 ? (
-    <FlatList
-      data={posts}
-      keyExtractor={(item: any) => item.$id}
-      renderItem={({ item }) => (
+  ).current;
+
+  const renderFlatList = useCallback(() => {
+    const commonProps = {
+      data: posts,
+      keyExtractor: (item: any) => item.$id,
+      renderItem: ({ item }: any) => (
         <TrendingItem item={item} activeItem={activeItem} />
-      )}
-      onViewableItemsChanged={viewableItemsChanged}
-      viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-      contentOffset={{ x: 170, y: 0 }}
-      horizontal
-    />
+      ),
+      contentOffset: { x: 170, y: 0 },
+      horizontal: true,
+    };
+
+    if (Platform.OS === "web") {
+      return <FlatList {...commonProps} />;
+    } else {
+      return (
+        <FlatList
+          {...commonProps}
+          onViewableItemsChanged={viewableItemsChanged}
+          viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
+        />
+      );
+    }
+  }, [posts, activeItem, viewableItemsChanged]);
+
+  return posts.length > 0 ? (
+    renderFlatList()
   ) : (
     <Text className="text-white"></Text>
   );

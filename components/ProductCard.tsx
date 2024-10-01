@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       >
         <Image
           source={{ uri: image }}
-          className="w-full h-full rounded-xl mt-3"
+          className="w-full md:w-1/4 h-full rounded-xl mt-3"
           resizeMode="cover"
         />
       </TouchableOpacity>

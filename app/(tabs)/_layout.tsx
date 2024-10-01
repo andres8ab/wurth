@@ -63,7 +63,7 @@ const TabsLayout = () => {
           name="home"
           options={{
             title: "Home",
-            headerShown: false,
+            // headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.home}
@@ -78,7 +78,7 @@ const TabsLayout = () => {
           name="bookmark"
           options={{
             title: "Bookmark",
-            headerShown: false,
+            // headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.bookmark}
@@ -93,7 +93,7 @@ const TabsLayout = () => {
           name="cart"
           options={{
             title: "Carrito",
-            headerShown: false,
+            // headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <CartIcon
                 icon={icons.cart}

@@ -17,6 +17,8 @@ import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import useAppwrite from "@/lib/useAppwrite";
 import ProductCard from "@/components/ProductCard";
+import { Stack } from "expo-router";
+import ExploreHeader from "@/components/ExploreHeader";
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
@@ -32,32 +34,14 @@ const Home = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
+      <Stack.Screen options={{ header: () => <ExploreHeader /> }} />
       <FlatList
         data={posts}
         keyExtractor={(item: any) => item.$id}
         renderItem={({ item }) => <ProductCard image={item} />}
         ListHeaderComponent={() => (
           <View className="px-4">
-            <View className="justify-center items-start flex-row mb-6">
-              {/* <View>
-                <Text className="font-pmedium text-sm text-gray-100">
-                  Bienvenido
-                </Text>
-                <Text className="text-white text-2xl font-psemibold">
-                  Andres
-                </Text>
-              </View> */}
-              <View>
-                <Image
-                  source={images.logo}
-                  className="w-24 h-20"
-                  resizeMode="contain"
-                />
-              </View>
-            </View>
-            <SearchInput />
-
-            <View className="w-full flex-1 pt-5 pb-8">
+            <View className="w-full flex-1 pb-8">
               <Text className="text-gray-100 text-lg font-pregular mb-3">
                 Novedades
               </Text>
